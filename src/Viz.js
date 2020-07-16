@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import * as d3 from "d3";
 import _ from "lodash";
 
@@ -72,17 +72,18 @@ const redraw = (d3Container, files, metadata, state, dispatch) => {
       update => update,
       exit => exit.remove()
     )
+    // eslint-disable-next-line no-unused-vars
     .on("click", (node, i, nodeList) => {
       // you need nodeList if you want the svg element clicked.
       // console.log("onClicked", node, i, nodeList[i]);
-      dispatch({ type: "selectDate", payload: node.date });
+      dispatch({ type: "selectData", payload: node.id });
     })
     .attr("cx", d => x(d.date))
     .attr("cy", d => y(d.newCases))
     .attr("r", 4)
     .style("stroke", "none")
     .style("fill", d =>
-      d.date === config.selectedDate
+      d.id === config.selected
         ? config.colours.selectedDot
         : config.colours.defaultDot
     );
@@ -98,7 +99,7 @@ const draw = (d3Container, files, metadata, state, dispatch) => {
 };
 
 const initialize = (d3Container, files, metadata, state, dispatch) => {
-  const { config, expensiveConfig, constants } = state;
+  const { constants } = state;
   if (!d3Container.current) {
     console.warn("in draw but d3container not yet current");
     return;
@@ -167,6 +168,16 @@ const Viz = props => {
       </svg>
     </aside>
   );
+};
+
+Viz.propTypes = {
+  dataRef: PropTypes.shape({ current: PropTypes.any }).isRequired,
+  state: PropTypes.shape({
+    config: PropTypes.any.isRequired,
+    expensiveConfig: PropTypes.any.isRequired,
+    constants: PropTypes.any.isRequired
+  }).isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
 export default Viz;

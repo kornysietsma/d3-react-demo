@@ -1,19 +1,21 @@
-/* eslint react/prop-types: 0 */
 import React from "react";
+import PropTypes from "prop-types";
+
 
 const Inspector = props => {
+  // eslint-disable-next-line no-unused-vars
   const { state, dispatch, dataRef } = props;
-  const { cases, metadata } = dataRef.current;
-  const { selectedDate } = state.config;
-  const hasSelection = selectedDate != null;
+  const { cases } = dataRef.current;
+  const { selected } = state.config;
+  const hasSelection = selected != null;
   const selectedData = hasSelection
-    ? cases.find(d => d.date === selectedDate)
-    : null;
+    ? cases.find(d => d.id === selected)
+    : undefined;
   return (
     <aside className="Inspector">
       {hasSelection ? (
         <div>
-          <h4>Selected: {selectedDate.toString()}</h4>
+          <h4>Selected: {selectedData.date.toString()}</h4>
           <p>New cases: {selectedData.newCases}</p>
           <p>Cumulative cases: {selectedData.cumCases}</p>
         </div>
@@ -22,6 +24,16 @@ const Inspector = props => {
       )}
     </aside>
   );
+};
+
+Inspector.propTypes = {
+  dataRef: PropTypes.shape({ current: PropTypes.any }).isRequired,
+  state: PropTypes.shape({
+    config: PropTypes.any.isRequired,
+    expensiveConfig: PropTypes.any.isRequired,
+    constants: PropTypes.any.isRequired
+  }).isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
 export default Inspector;

@@ -12,7 +12,7 @@ function initialiseGlobalState(initialData) {
         defaultDot: "#b743ff",
         selectedDot: "#eeff2b"
       },
-      selectedDate: null
+      selected: null
     },
     expensiveConfig: {
       dateRange: {
@@ -46,9 +46,9 @@ function globalDispatchReducer(state, action) {
       result.config.colours.defaultDot = action.payload;
       return result;
     }
-    case "selectDate": {
+    case "selectData": {
       const result = _.cloneDeep(state);
-      result.config.selectedDate = action.payload;
+      result.config.selected = action.payload;
       return result;
     }
     default:

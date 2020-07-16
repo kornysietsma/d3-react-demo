@@ -11,8 +11,9 @@ const useFetch = url => {
       const response = await fetch(url);
       const json = await response.json();
       console.log("postprocessing data");
-      const cleanData = json.data.map(rawData => {
+      const cleanData = json.data.map((rawData, index) => {
         return {
+          id: index,
           date: moment(rawData.date).toDate(),
           newCases: rawData.newCasesByPublishDate,
           cumCases: rawData.cumCasesByPublishDate
