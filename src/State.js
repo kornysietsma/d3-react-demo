@@ -2,7 +2,7 @@ import _ from "lodash";
 
 function initialiseGlobalState(initialData) {
   const {
-    metadata: { earliest, latest }
+    metadata: { earliest, latest },
   } = initialData.current;
 
   return {
@@ -10,20 +10,20 @@ function initialiseGlobalState(initialData) {
       colours: {
         defaultLine: "#00fdff",
         defaultDot: "#b743ff",
-        selectedDot: "#eeff2b"
+        selectedDot: "#eeff2b",
       },
-      selected: null
+      selected: null,
     },
     expensiveConfig: {
       dateRange: {
         earliest,
-        latest
-      }
+        latest,
+      },
     },
     // Constants won't trigger an update - if these need to change, move them to config or expensiveConfig
     constants: {
-      margins: { top: 20, right: 20, bottom: 70, left: 40 }
-    }
+      margins: { top: 20, right: 20, bottom: 70, left: 40 },
+    },
   };
 }
 

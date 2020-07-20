@@ -1,15 +1,15 @@
+/* eslint-disable react/forbid-prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 
-
-const Inspector = props => {
+const Inspector = (props) => {
   // eslint-disable-next-line no-unused-vars
   const { state, dispatch, dataRef } = props;
   const { cases } = dataRef.current;
   const { selected } = state.config;
   const hasSelection = selected != null;
   const selectedData = hasSelection
-    ? cases.find(d => d.id === selected)
+    ? cases.find((d) => d.id === selected)
     : undefined;
   return (
     <aside className="Inspector">
@@ -31,9 +31,9 @@ Inspector.propTypes = {
   state: PropTypes.shape({
     config: PropTypes.any.isRequired,
     expensiveConfig: PropTypes.any.isRequired,
-    constants: PropTypes.any.isRequired
+    constants: PropTypes.any.isRequired,
   }).isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default Inspector;

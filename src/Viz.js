@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import * as d3 from "d3";
@@ -13,9 +14,9 @@ const redraw = (d3Container, files, metadata, state, dispatch) => {
   const {
     config,
     expensiveConfig: {
-      dateRange: { earliest, latest }
+      dateRange: { earliest, latest },
     },
-    constants: { margins }
+    constants: { margins },
   } = state;
   const vizEl = d3Container.current;
   if (!d3Container.current) {
@@ -29,37 +30,31 @@ const redraw = (d3Container, files, metadata, state, dispatch) => {
   const xAxisGroup = svg.select("g.x-axis");
   const yAxisGroup = svg.select("g.y-axis");
 
-  const x = d3
-    .scaleTime()
-    .range([0, width])
-    .domain([earliest, latest]);
+  const x = d3.scaleTime().range([0, width]).domain([earliest, latest]);
   const y = d3
     .scaleLinear()
     .range([height, 0])
-    .domain([0, d3.max(files, d => d.newCases)]);
+    .domain([0, d3.max(files, (d) => d.newCases)]);
 
   const xAxis = d3.axisBottom().scale(x);
 
-  const yAxis = d3
-    .axisLeft()
-    .scale(y)
-    .ticks(10);
+  const yAxis = d3.axisLeft().scale(y).ticks(10);
 
   const line = d3
     .line()
-    .x(d => x(d.date))
-    .y(d => y(d.newCases));
+    .x((d) => x(d.date))
+    .y((d) => y(d.newCases));
 
   // the line
   mainChartGroup
     .selectAll("path.line")
     .data([files]) // note a single data point as line is built that way
     .join(
-      enter => enter.append("path").attr("class", "line"),
-      update => update,
-      exit => exit.remove()
+      (enter) => enter.append("path").attr("class", "line"),
+      (update) => update,
+      (exit) => exit.remove()
     )
-    .attr("d", d => line(d))
+    .attr("d", (d) => line(d))
     .style("stroke", config.colours.defaultLine)
     .style("fill", "none");
 
@@ -68,9 +63,9 @@ const redraw = (d3Container, files, metadata, state, dispatch) => {
     .selectAll("circle.dot")
     .data(files)
     .join(
-      enter => enter.append("circle").attr("class", "dot"),
-      update => update,
-      exit => exit.remove()
+      (enter) => enter.append("circle").attr("class", "dot"),
+      (update) => update,
+      (exit) => exit.remove()
     )
     // eslint-disable-next-line no-unused-vars
     .on("click", (node, i, nodeList) => {
@@ -78,11 +73,11 @@ const redraw = (d3Container, files, metadata, state, dispatch) => {
       // console.log("onClicked", node, i, nodeList[i]);
       dispatch({ type: "selectData", payload: node.id });
     })
-    .attr("cx", d => x(d.date))
-    .attr("cy", d => y(d.newCases))
+    .attr("cx", (d) => x(d.date))
+    .attr("cy", (d) => y(d.newCases))
     .attr("r", 4)
     .style("stroke", "none")
-    .style("fill", d =>
+    .style("fill", (d) =>
       d.id === config.selected
         ? config.colours.selectedDot
         : config.colours.defaultDot
@@ -138,7 +133,7 @@ function usePrevious(value) {
   return ref.current;
 }
 
-const Viz = props => {
+const Viz = (props) => {
   const d3Container = useRef(null);
   const { dataRef, state, dispatch } = props;
 
@@ -163,9 +158,7 @@ const Viz = props => {
 
   return (
     <aside className="Viz">
-      <svg className="chart" ref={d3Container}>
-        <g className="topGroup" />
-      </svg>
+      <svg className="chart" ref={d3Container} />
     </aside>
   );
 };
@@ -175,9 +168,9 @@ Viz.propTypes = {
   state: PropTypes.shape({
     config: PropTypes.any.isRequired,
     expensiveConfig: PropTypes.any.isRequired,
-    constants: PropTypes.any.isRequired
+    constants: PropTypes.any.isRequired,
   }).isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default Viz;

@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useReducer } from "react";
 import PropTypes from "prop-types";
 import "./App.css";
@@ -6,7 +7,7 @@ import Inspector from "./Inspector";
 import Viz from "./Viz";
 import { globalDispatchReducer, initialiseGlobalState } from "./State";
 
-const App = props => {
+const App = (props) => {
   const { dataRef } = props;
 
   const [vizState, dispatch] = useReducer(
@@ -28,7 +29,7 @@ const App = props => {
 };
 
 App.propTypes = {
-  dataRef: PropTypes.shape({ current: PropTypes.any }).isRequired
+  dataRef: PropTypes.shape({ current: PropTypes.any }).isRequired,
 };
 
 export default App;

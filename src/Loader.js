@@ -3,7 +3,7 @@ import _ from "lodash";
 import moment from "moment";
 import App from "./App";
 
-const useFetch = url => {
+const useFetch = (url) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -16,16 +16,16 @@ const useFetch = url => {
           id: index,
           date: moment(rawData.date).toDate(),
           newCases: rawData.newCasesByPublishDate,
-          cumCases: rawData.cumCasesByPublishDate
+          cumCases: rawData.cumCasesByPublishDate,
         };
       });
-      const dates = cleanData.map(d => d.date);
+      const dates = cleanData.map((d) => d.date);
       const earliest = _.min(dates);
       const latest = _.max(dates);
 
       const metadata = {
         earliest,
-        latest
+        latest,
       };
       setData({ cases: cleanData, metadata });
     }

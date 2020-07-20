@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/no-onchange */
+/* eslint-disable react/forbid-prop-types */
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import _uniqueId from "lodash/uniqueId";
 
-const Controller = props => {
+const Controller = (props) => {
   const { dataRef, state, dispatch } = props;
   // eslint-disable-next-line no-unused-vars
   const { metadata } = dataRef.current;
@@ -21,10 +22,10 @@ const Controller = props => {
             id={strokeColourId}
             name="stroke colour"
             value={config.colours.defaultLine}
-            onChange={evt =>
+            onChange={(evt) =>
               dispatch({
                 type: "setLineColour",
-                payload: evt.target.value
+                payload: evt.target.value,
               })
             }
           />
@@ -38,10 +39,10 @@ const Controller = props => {
             id={dotColourId}
             name="dot colour"
             value={config.colours.defaultDot}
-            onChange={evt =>
+            onChange={(evt) =>
               dispatch({
                 type: "setDotColour",
-                payload: evt.target.value
+                payload: evt.target.value,
               })
             }
           />
@@ -57,9 +58,9 @@ Controller.propTypes = {
   state: PropTypes.shape({
     config: PropTypes.any.isRequired,
     expensiveConfig: PropTypes.any.isRequired,
-    constants: PropTypes.any.isRequired
+    constants: PropTypes.any.isRequired,
   }).isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default Controller;
