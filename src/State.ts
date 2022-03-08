@@ -1,9 +1,51 @@
 import _ from "lodash";
+import { VizDataRef } from "./DataTypes";
 
-function initialiseGlobalState(initialData) {
+interface DateRangeAction {
+  type: "dateRange",
+  payload: [Date, Date]
+}
+
+interface LineColourAction {
+  type: "setLineColour",
+  payload: string
+}
+interface DotColourAction {
+  type: "setDotColour",
+  payload: string
+}
+interface SelectDataAction {
+  type: "selectData",
+  payload: number // the id of the element selected (id inside VizData not html ID!)
+}
+
+export type Action = DateRangeAction | LineColourAction | DotColourAction | SelectDataAction;
+
+export type State = {
+  config: {
+    colours: {
+      defaultLine: string,
+      defaultDot: string,
+      selectedDot: string,
+    },
+    selected: any,
+  },
+  expensiveConfig: {
+    dateRange: {
+      earliest: Date,
+      latest: Date
+    }
+  },
+  constants: {
+    margins: { top: number, right: number, bottom: number, left: number },
+  },
+}
+
+
+function initialiseGlobalState(initialData:VizDataRef) {
   const {
     metadata: { earliest, latest },
-  } = initialData.current;
+  } = initialData.current!;
 
   return {
     config: {
@@ -27,7 +69,7 @@ function initialiseGlobalState(initialData) {
   };
 }
 
-function globalDispatchReducer(state, action) {
+function globalDispatchReducer(state: State, action: Action) : State {
   switch (action.type) {
     case "dateRange": {
       const [early, late] = action.payload;
@@ -52,7 +94,9 @@ function globalDispatchReducer(state, action) {
       return result;
     }
     default:
-      throw new Error(`Invalid dispatch type ${action.type}`);
+      // Typescript check - this can't be called unless we missed an Action type
+      const _exhaustive: never = action;
+      return _exhaustive;
   }
 }
 

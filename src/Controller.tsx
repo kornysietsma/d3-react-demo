@@ -1,13 +1,13 @@
-/* eslint-disable jsx-a11y/no-onchange */
-/* eslint-disable react/forbid-prop-types */
-import React, { useRef } from "react";
-import PropTypes from "prop-types";
+import React, { Dispatch, useRef } from "react";
 import _uniqueId from "lodash/uniqueId";
+import { VizDataRef } from "./DataTypes";
+import { Action, State } from "./State";
+import { DefaultComponentProps } from "./ComponentProps";
 
-const Controller = (props) => {
+const Controller = (props: DefaultComponentProps) => {
   const { dataRef, state, dispatch } = props;
   // eslint-disable-next-line no-unused-vars
-  const { metadata } = dataRef.current;
+  const { metadata } = dataRef.current!;
   const { config } = state;
   // ID logic from https://stackoverflow.com/questions/29420835/how-to-generate-unique-ids-for-form-labels-in-react
   const { current: strokeColourId } = useRef(_uniqueId("controller-"));
@@ -51,16 +51,6 @@ const Controller = (props) => {
       </div>
     </aside>
   );
-};
-
-Controller.propTypes = {
-  dataRef: PropTypes.shape({ current: PropTypes.any }).isRequired,
-  state: PropTypes.shape({
-    config: PropTypes.any.isRequired,
-    expensiveConfig: PropTypes.any.isRequired,
-    constants: PropTypes.any.isRequired,
-  }).isRequired,
-  dispatch: PropTypes.func.isRequired,
 };
 
 export default Controller;

@@ -810,7 +810,7 @@
       "areaType": "overview",
       "areaName": "United Kingdom",
       "date": "2020-03-10",
-      "newCasesByPublishDate": null,
+      "newCasesByPublishDate": 0,
       "cumCasesByPublishDate": 373
     }
   ]
