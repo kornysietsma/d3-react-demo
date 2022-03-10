@@ -1,5 +1,5 @@
 import _uniqueId from "lodash/uniqueId";
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 import { DefaultComponentProps } from "./ComponentProps";
 

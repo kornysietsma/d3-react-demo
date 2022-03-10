@@ -1,6 +1,6 @@
 import _ from "lodash";
 import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import App from "./App";
 import { DataEntry, VizData, VizDataRefMaybe } from "./DataTypes";

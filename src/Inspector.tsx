@@ -1,10 +1,8 @@
-import React from "react";
-
 import { DefaultComponentProps } from "./ComponentProps";
 
 const Inspector = (props: DefaultComponentProps) => {
   const { state, dataRef } = props;
-  const { cases } = dataRef.current!;
+  const { cases } = dataRef.current;
   const { selected } = state.config;
   const hasSelection = selected != null;
   const selectedData = hasSelection

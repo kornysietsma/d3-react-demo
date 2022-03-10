@@ -1,16 +1,16 @@
 import "./css/normalize.css";
 import "./css/custom.css";
 
-import React from "react";
+import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 
 import Loader from "./Loader";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <Loader />
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById("root")
 );
 

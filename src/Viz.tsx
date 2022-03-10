@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import _ from "lodash";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import * as React from "react";
 
 import { DefaultComponentProps } from "./ComponentProps";
 import { DataEntry, VizMetadata } from "./DataTypes";
