@@ -17,4 +17,7 @@ export type VizData = {
   metadata: VizMetadata;
 };
 
-export type VizDataRef = MutableRefObject<VizData | undefined>;
+// While we are loading the data, it's value might be undefined
+export type VizDataRefMaybe = MutableRefObject<VizData | undefined>;
+// once Loader.tsx loads `<App>` the value must be defined
+export type VizDataRef = MutableRefObject<VizData>;

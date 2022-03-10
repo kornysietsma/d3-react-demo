@@ -1,12 +1,18 @@
-import React, { useReducer } from "react";
 import "./App.css";
-import Controller from "./Controller";
-import Inspector from "./Inspector";
-import Viz from "./Viz";
-import { globalDispatchReducer, initialiseGlobalState } from "./State";
-import { VizDataRef } from "./DataTypes";
 
-const App = ({ dataRef }: { dataRef: VizDataRef }) => {
+import React, { useReducer, useRef } from "react";
+
+import Controller from "./Controller";
+import { VizDataRef, VizDataRefMaybe } from "./DataTypes";
+import Inspector from "./Inspector";
+import { globalDispatchReducer, initialiseGlobalState } from "./State";
+import Viz from "./Viz";
+
+const App = ({ dataRefMaybe }: { dataRefMaybe: VizDataRefMaybe }) => {
+  // The App can only be shown if the data ref has been loaded - see Loader.tsx
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const dataRef: VizDataRef = useRef(dataRefMaybe.current!);
+
   const [vizState, dispatch] = useReducer(
     globalDispatchReducer,
     dataRef,

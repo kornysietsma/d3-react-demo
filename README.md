@@ -60,6 +60,13 @@ In practice I've found this is quick enough that it's quite reasonable to do thi
 
 I updated the react version (to 12.1.3) and the d3 version (to 7.1.0) but the biggest change was to move everything to TypeScript - it's not strictly necessary for such a simple project, but I wanted to learn TypeScript - also this is the base for my other visualisation tools such as the [Polyglot Code Explorer](https://github.com/kornysietsma/polyglot-code-explorer) and it'd be good to use TypeScript there.
 
+I've also added somewhat better eslint and prettier rules - I'm no expert here so they may not be ideal.
+
+## TODO
+
+- remove unneeded boilerplate
+- maybe basic test example
+
 ## Original readme
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

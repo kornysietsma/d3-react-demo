@@ -1,51 +1,55 @@
 import _ from "lodash";
+
 import { VizDataRef } from "./DataTypes";
 
 interface DateRangeAction {
-  type: "dateRange",
-  payload: [Date, Date]
+  type: "dateRange";
+  payload: [Date, Date];
 }
 
 interface LineColourAction {
-  type: "setLineColour",
-  payload: string
+  type: "setLineColour";
+  payload: string;
 }
 interface DotColourAction {
-  type: "setDotColour",
-  payload: string
+  type: "setDotColour";
+  payload: string;
 }
 interface SelectDataAction {
-  type: "selectData",
-  payload: number // the id of the element selected (id inside VizData not html ID!)
+  type: "selectData";
+  payload: number; // the id of the point selected (id inside VizData not html ID!)
 }
 
-export type Action = DateRangeAction | LineColourAction | DotColourAction | SelectDataAction;
+export type Action =
+  | DateRangeAction
+  | LineColourAction
+  | DotColourAction
+  | SelectDataAction;
 
 export type State = {
   config: {
     colours: {
-      defaultLine: string,
-      defaultDot: string,
-      selectedDot: string,
-    },
-    selected: any,
-  },
+      defaultLine: string;
+      defaultDot: string;
+      selectedDot: string;
+    };
+    selected: number | null;
+  };
   expensiveConfig: {
     dateRange: {
-      earliest: Date,
-      latest: Date
-    }
-  },
+      earliest: Date;
+      latest: Date;
+    };
+  };
   constants: {
-    margins: { top: number, right: number, bottom: number, left: number },
-  },
-}
+    margins: { top: number; right: number; bottom: number; left: number };
+  };
+};
 
-
-function initialiseGlobalState(initialData:VizDataRef) {
+function initialiseGlobalState(initialData: VizDataRef) {
   const {
     metadata: { earliest, latest },
-  } = initialData.current!;
+  } = initialData.current;
 
   return {
     config: {
@@ -69,7 +73,7 @@ function initialiseGlobalState(initialData:VizDataRef) {
   };
 }
 
-function globalDispatchReducer(state: State, action: Action) : State {
+function globalDispatchReducer(state: State, action: Action): State {
   switch (action.type) {
     case "dateRange": {
       const [early, late] = action.payload;
@@ -93,11 +97,12 @@ function globalDispatchReducer(state: State, action: Action) : State {
       result.config.selected = action.payload;
       return result;
     }
-    default:
+    default: {
       // Typescript check - this can't be called unless we missed an Action type
       const _exhaustive: never = action;
-      return _exhaustive;
+      return action;
+    }
   }
 }
 
-export { initialiseGlobalState, globalDispatchReducer };
+export { globalDispatchReducer, initialiseGlobalState };

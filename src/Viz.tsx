@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import _ from "lodash";
+import React, { useEffect, useRef } from "react";
+
 import { DefaultComponentProps } from "./ComponentProps";
 import { DataEntry, VizMetadata } from "./DataTypes";
 import { Action, State } from "./State";
@@ -43,6 +44,7 @@ const redraw = (
   const y = d3
     .scaleLinear()
     .range([height, 0])
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     .domain([0, d3.max(files, (d) => d.newCases)!]);
 
   const xAxis = d3.axisBottom(x);
@@ -161,7 +163,7 @@ const Viz = (props: DefaultComponentProps) => {
   const prevState = usePrevious(state);
 
   useEffect(() => {
-    const { metadata, cases } = dataRef.current!;
+    const { metadata, cases } = dataRef.current;
     const { config, expensiveConfig } = state;
     if (prevState === undefined) {
       console.log("No previous state - first draw");

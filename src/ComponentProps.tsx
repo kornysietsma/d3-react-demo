@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
+
 import { VizDataRef } from "./DataTypes";
-import { State, Action } from "./State";
+import { Action, State } from "./State";
 
 export type DefaultComponentProps = {
   dataRef: VizDataRef;

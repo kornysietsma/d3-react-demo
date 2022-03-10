@@ -1,15 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import "./css/normalize.css";
 import "./css/custom.css";
+
+import React from "react";
+import ReactDOM from "react-dom";
+
 import Loader from "./Loader";
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
     <Loader />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

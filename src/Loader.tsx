@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
 import _ from "lodash";
 import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
+
 import App from "./App";
-import { VizData, DataEntry, VizDataRef } from "./DataTypes";
+import { DataEntry, VizData, VizDataRefMaybe } from "./DataTypes";
 
 type JsonEntry = {
   areaType: string;
@@ -20,7 +21,7 @@ const useFetch = (url: string) => {
       const response = await fetch(url);
       const json = await response.json();
       console.log("postprocessing data");
-      // Note I'm just type asserting here - if you don't control the data file, might want to validate it and use a type guard!
+      // Note I'm just asserting data types here - if you don't control the data file, you might want to validate it and use a type guard; or use a schema on the way in.
       const cleanData: Array<DataEntry> = json.data.map(
         (rawData: JsonEntry, index: number) => {
           return {
@@ -53,15 +54,15 @@ const useFetch = (url: string) => {
 const Loader = () => {
   const url = `${process.env.PUBLIC_URL}/data.json`;
 
-  const dataRef: VizDataRef = useRef<VizData>();
+  const dataRefEventually: VizDataRefMaybe = useRef<VizData>();
 
   const data = useFetch(url);
-  dataRef.current = data;
+  dataRefEventually.current = data;
 
-  return dataRef.current === undefined ? ( // TODO - this used to be null check?
+  return dataRefEventually.current === undefined ? (
     <div>Loading...</div>
   ) : (
-    <App dataRef={dataRef} />
+    <App dataRefMaybe={dataRefEventually} />
   );
 };
 

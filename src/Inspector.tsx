@@ -1,10 +1,8 @@
-import React, { Dispatch } from "react";
+import React from "react";
+
 import { DefaultComponentProps } from "./ComponentProps";
-import { VizDataRef } from "./DataTypes";
-import { Action, State } from "./State";
 
 const Inspector = (props: DefaultComponentProps) => {
-  // eslint-disable-next-line no-unused-vars
   const { state, dataRef } = props;
   const { cases } = dataRef.current!;
   const { selected } = state.config;

@@ -1,13 +1,11 @@
-import React, { Dispatch, useRef } from "react";
 import _uniqueId from "lodash/uniqueId";
-import { VizDataRef } from "./DataTypes";
-import { Action, State } from "./State";
+import React, { useRef } from "react";
+
 import { DefaultComponentProps } from "./ComponentProps";
 
 const Controller = (props: DefaultComponentProps) => {
-  const { dataRef, state, dispatch } = props;
-  // eslint-disable-next-line no-unused-vars
-  const { metadata } = dataRef.current!;
+  const { state, dispatch } = props;
+
   const { config } = state;
   // ID logic from https://stackoverflow.com/questions/29420835/how-to-generate-unique-ids-for-form-labels-in-react
   const { current: strokeColourId } = useRef(_uniqueId("controller-"));
