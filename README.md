@@ -16,28 +16,25 @@ I'm using the approach that D3 owns it's own DOM area - based on the excellent a
 
 So React manipulates everything HTML, D3 manipulates everything SVG.
 
-Basically there's a single `<svg>` element in the Viz.js component, and it is owned and manipulated through the `useEffect` calls, rather than trying to let react manage it's DOM.
+Basically there's a single `<svg>` element in the `Viz.tsx` component, and it is owned and manipulated through the use of [`useEffect`](https://reactjs.org/docs/hooks-reference.html#useeffect) hooks, rather than trying to let react manage it's DOM.
 
-I'm using a `ref` to keep track of the svg root across re-renderings - as I understand React, this should hang around even if we manipulate stuff elsewhere.
+I'm using a `ref` to keep track of the svg root across re-renderings - see [useRef](https://reactjs.org/docs/hooks-reference.html#useref)  As I understand it, this is effectively a global variable - it will keep it's value across re-renders of the same component.
 
-The loaded JSON data is kept in a `ref` as well - they aren't just for DOM elements! This saves React from having to diff the data or anything crazy like that.
+The loaded JSON data is kept in a `ref` as well - they aren't just for DOM elements! This saves React from having to check if the data changes whenever I re-render the view - it just passes the same ref along.
 
-State is kept in a single object with a few main components (see State.js):
+State is handled via a [`useReducer`](https://reactjs.org/docs/hooks-reference.html#usereducer) hook in `State.ts` - effectively it tracks a single state object globally, any code can call the `globalDispatchReducer()` function, passing in an `Action` (see State.ts for valid actions) with a payload.  The reducer updates the state, and any components depending on the state get re-rendered.
 
-- "config" is for most configuration that changes often
-- "expensiveConfig" is for configuration that changes less often, which might require more processing
-- "constants" is for configuration that never changes
+`Viz.tsx` also gets re-rendered whenever the state changes - but it doesn't re-draw the `<svg>` element because that'd be very expensive to do on every state change!  Instead it uses a tricky `usePrevious()` function to compare the state it is passed, with the previous state (see <https://stackoverflow.com/questions/53446020/how-to-compare-oldvalues-and-newvalues-on-react-hooks-useeffect> ) and then it works out what has changed:
 
-For this small example, "config" and "expensiveConfig" are identical - in `Viz.js` they both cause d3 to re-render the chart.
-But in more complex situations, I've found the distinction useful - for example, with a tree-structured hierarchy, I don't want to re-calculate the whole tree on a cheap config change.
+- if an expensive config value has changed, it runs `draw()` which re-draws everything in the `<svg>` element
+- if a cheap config value has changed, it just runs `redraw()` - in a more complex app, this could just re-paint elements without doing all the complex setup a full display might need
+- if nothing has changed, it doesn't bother doing anything
 
-You could take a look at [the vis.js file in Polyglot Code Explorer](https://github.com/kornysietsma/polyglot-code-explorer/blob/136a40aade55c3a5fcf1fae39ff42c540b08160c/src/Viz.js) for a much more complex example where the distinction between cheap and expensive rendering is needed.
-
-Viz.js gets re-rendered whenever the state changes - but then it compares the state it is passed, with the previous state (see <https://stackoverflow.com/questions/53446020/how-to-compare-oldvalues-and-newvalues-on-react-hooks-useeffect> ) and renders or re-renders depending on what has changed.
+(the state object explicitly separates out `expensiveConfig` from `config` from `constants` which never change)
 
 The general lifecycle of the app is:
 
-- `Loader` renders a 'loading' message, triggers an Ajax call to fetch the data, and does any expensive postprocessing such as finding date ranges or anything else that never changes.  Once the data is loaded it then renders an `<App>` component.
+- `Loader` renders a 'loading' message, triggers a `fetch` call to fetch the data, and does any expensive postprocessing such as finding date ranges or anything else that never changes.  Once the data is loaded it then renders an `<App>` component.
 - `App` renders the initial page, the Controller, Viz and Inspector components, and sets up wiring
 - `Viz` renders the `<svg>` element, and wires up the `useEffect` call whenever state changes
 - `useEffect` is triggered and calls `initialize` as the config is new

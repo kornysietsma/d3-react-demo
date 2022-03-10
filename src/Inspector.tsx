@@ -1,5 +1,9 @@
 import { DefaultComponentProps } from "./ComponentProps";
 
+/**
+ * The right-hand Controller panel - contains info about the current selection, generally
+ */
+
 const Inspector = (props: DefaultComponentProps) => {
   const { state, dataRef } = props;
   const { cases } = dataRef.current;

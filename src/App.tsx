@@ -8,11 +8,16 @@ import Inspector from "./Inspector";
 import { globalDispatchReducer, initialiseGlobalState } from "./State";
 import Viz from "./Viz";
 
+/**
+ * The main App component - note, this should be loaded from a `<Loader>` which handles fetching data first!
+ * @param dataRefMaybe - the data to view, by the time App is rendered the data should be loaded so cannot be undefined.  (sadly due to the way hooks work I can't check this in `Loader`)
+ */
 const App = ({ dataRefMaybe }: { dataRefMaybe: VizDataRefMaybe }) => {
-  // The App can only be shown if the data ref has been loaded - see Loader.tsx
+  // The App can only be shown if the data ref has been loaded - see Loader.tsx - so this is safe
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const dataRef: VizDataRef = useRef(dataRefMaybe.current!);
 
+  // set up global state management
   const [vizState, dispatch] = useReducer(
     globalDispatchReducer,
     dataRef,

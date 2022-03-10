@@ -20,6 +20,7 @@ interface SelectDataAction {
   payload: number; // the id of the point selected (id inside VizData not html ID!)
 }
 
+/** Every valid kind of Action, and their associated payloads */
 export type Action =
   | DateRangeAction
   | LineColourAction
@@ -73,6 +74,11 @@ function initialiseGlobalState(initialData: VizDataRef) {
   };
 }
 
+/** The heart of the state management.
+ * Takes an Action, and updates the State.
+ * Components will be redrawn with the new state.
+ * The Viz component will do it's own magic to work out what needs to be redrawn
+ */
 function globalDispatchReducer(state: State, action: Action): State {
   switch (action.type) {
     case "dateRange": {

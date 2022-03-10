@@ -15,6 +15,9 @@ const dimensions = (vizEl: SVGElement, margins: Margins) => {
   return { width, height };
 };
 
+/*
+  redraws d3  based on cheap config changes 
+*/
 const redraw = (
   d3Container: React.RefObject<SVGSVGElement>,
   files: DataEntry[],
@@ -29,11 +32,11 @@ const redraw = (
     },
     constants: { margins },
   } = state;
-  const vizEl = d3Container.current;
-  if (!vizEl) {
-    console.warn("in draw but d3container not yet current");
-    return;
+  if (!d3Container.current) {
+    // should be impossible
+    throw new Error("Tried to redraw Viz before d3container created");
   }
+  const vizEl = d3Container.current;
   const { width, height } = dimensions(vizEl, margins);
 
   const svg = d3.select(vizEl);
@@ -99,6 +102,9 @@ const redraw = (
   yAxisGroup.call(yAxis.ticks(null).tickSize(0));
 };
 
+/**
+ * redraws d3 viz after expensive config changes (does nothing more in this simple demo)
+ */
 const draw = (
   d3Container: React.RefObject<SVGSVGElement>,
   files: DataEntry[],
@@ -110,6 +116,9 @@ const draw = (
   redraw(d3Container, files, metadata, state, dispatch);
 };
 
+/**
+ * initialize and draw d3 viz
+ */
 const initialize = (
   d3Container: React.RefObject<SVGSVGElement>,
   files: DataEntry[],
@@ -119,8 +128,8 @@ const initialize = (
 ) => {
   const { constants } = state;
   if (!d3Container.current) {
-    console.warn("in draw but d3container not yet current");
-    return;
+    // should be impossible
+    throw new Error("Tried to initialize Viz before d3container created");
   }
   const { margins } = constants;
   const vizEl = d3Container.current;
@@ -157,10 +166,16 @@ function usePrevious<T>(value: T) {
   return ref.current;
 }
 
+/*
+  Viz component - shows a `<svg>` element holding a D3 visualization.
+  Uses `useRef` to wrap the `<svg>` element so it doesn't get redrawn whenever the component is drawn,
+  instead it bypasses the React logic and does drawing as needed.
+*/
 const Viz = (props: DefaultComponentProps) => {
   const d3Container = useRef<SVGSVGElement>(null);
   const { dataRef, state, dispatch } = props;
 
+  // the previous state last time Viz was drawn (or undefined)
   const prevState = usePrevious(state);
 
   useEffect(() => {

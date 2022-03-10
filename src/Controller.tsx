@@ -3,6 +3,9 @@ import { useRef } from "react";
 
 import { DefaultComponentProps } from "./ComponentProps";
 
+/**
+ * The left-hand Controller panel - contains user interactivity stuff
+ */
 const Controller = (props: DefaultComponentProps) => {
   const { state, dispatch } = props;
 

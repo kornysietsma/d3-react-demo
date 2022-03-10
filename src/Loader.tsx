@@ -13,6 +13,9 @@ type JsonEntry = {
   cumCasesByPublishDate: number;
 };
 
+/**
+ * Fetches data from a URL asynchronously via useEffect
+ */
 const useFetch = (url: string) => {
   const [data, setData] = useState<VizData>();
 
@@ -20,7 +23,6 @@ const useFetch = (url: string) => {
     async function fetchData() {
       const response = await fetch(url);
       const json = await response.json();
-      console.log("postprocessing data");
       // Note I'm just asserting data types here - if you don't control the data file, you might want to validate it and use a type guard; or use a schema on the way in.
       const cleanData: Array<DataEntry> = json.data.map(
         (rawData: JsonEntry, index: number) => {
@@ -51,6 +53,9 @@ const useFetch = (url: string) => {
   return data;
 };
 
+/**
+ * The main Loader component - loads data and renders the `<App>` component when the data has been loaded.
+ */
 const Loader = () => {
   const url = `${process.env.PUBLIC_URL}/data.json`;
 
