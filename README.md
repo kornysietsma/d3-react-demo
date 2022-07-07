@@ -53,16 +53,62 @@ This cycle makes interactions really nice and easy - every component gets passed
 
 In practice I've found this is quick enough that it's quite reasonable to do things like triggering a re-render when you drag a slider around - especially if you use the cheap/expensive config approach to limit what is re-drawn.  (It's easy to extend this to have several state areas which trigger different d3 effects)
 
-## Update March 2022
+## Changelog-ish
+
+### Update March 2022
 
 I updated the react version (to 12.1.3) and the d3 version (to 7.1.0) but the biggest change was to move everything to TypeScript - it's not strictly necessary for such a simple project, but I wanted to learn TypeScript - also this is the base for my other visualisation tools such as the [Polyglot Code Explorer](https://github.com/kornysietsma/polyglot-code-explorer) and it'd be good to use TypeScript there.
 
 I've also added somewhat better eslint and prettier rules - I'm no expert here so they may not be ideal.
 
+### Update Aug 2022
+
+- Moving back to yarn as otherwise I need to change too many things
+- Upgrading to react 18
+- ditching most of lodash - going to try native types, plus immer maybe
+  - keeping it at the moment just for:
+    - `_.isEqual()` as deep equality checking seems hard natively 
+- using react 18 for unique IDs: https://stackoverflow.com/a/71681435/196463
+- ditching moment.js - going to try date-fns
+
 ## TODO
 
 - remove unneeded boilerplate
-- maybe basic test example
+- test examples - probably not e2e tests, but at least how to hook in unit-level tests
+- add semantic versioning examples
+
+## Other dev notes
+
+This is mostly for my own reference!
+
+### upgrading
+
+You can upgrade dependencies interactively:
+
+```sh
+yarn upgrade-interactive [--latest]
+```
+
+The `--latest` option looks outside specified ranges - very nice.
+
+### running eslint and prettier from the commandline
+
+```sh
+# linting:
+# just check
+yarn eslint "src/**/*.ts"
+# fix but not really
+yarn eslint --fix-dry-run "src/**/*.ts"
+# apply the fixes
+yarn eslint --fix "src/**/*.ts"
+
+# formatting:
+# just check formatting is OK
+yarn prettier --check "src/**/*.ts"
+# overwrite - I'd prefer to use the IDE really, but:
+yarn prettier --write "src/**/*.ts"
+
+
 
 ## Original readme
 
@@ -75,7 +121,7 @@ The rest of this Readme is left largely untouched from the boilerplate, as it's 
 
 In the project directory, you can run:
 
-### `npm start`
+### `yarn start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -83,12 +129,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
+### `yarn test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### `yarn build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -98,7 +144,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### `yarn eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 

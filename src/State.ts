@@ -1,4 +1,4 @@
-import _ from "lodash";
+import produce, { Immutable } from "immer";
 
 import { VizDataRef } from "./DataTypes";
 
@@ -27,7 +27,7 @@ export type Action =
   | DotColourAction
   | SelectDataAction;
 
-export type State = {
+export type State = Immutable<{
   config: {
     colours: {
       defaultLine: string;
@@ -45,7 +45,7 @@ export type State = {
   constants: {
     margins: { top: number; right: number; bottom: number; left: number };
   };
-};
+}>;
 
 function initialiseGlobalState(initialData: VizDataRef) {
   const {
@@ -79,36 +79,34 @@ function initialiseGlobalState(initialData: VizDataRef) {
  * Components will be redrawn with the new state.
  * The Viz component will do it's own magic to work out what needs to be redrawn
  */
-function globalDispatchReducer(state: State, action: Action): State {
-  switch (action.type) {
-    case "dateRange": {
-      const [early, late] = action.payload;
-      const result = _.cloneDeep(state);
-      result.expensiveConfig.dateRange.earliest = early;
-      result.expensiveConfig.dateRange.latest = late;
-      return result;
+function globalDispatchReducer() {
+  return produce((draft, action: Action) => {
+    switch (action.type) {
+      case "dateRange": {
+        const [early, late] = action.payload;
+        draft.expensiveConfig.dateRange.earliest = early;
+        draft.expensiveConfig.dateRange.latest = late;
+        break;
+      }
+      case "setLineColour": {
+        draft.config.colours.defaultLine = action.payload;
+        break;
+      }
+      case "setDotColour": {
+        draft.config.colours.defaultDot = action.payload;
+        break;
+      }
+      case "selectData": {
+        draft.config.selected = action.payload;
+        break;
+      }
+      default: {
+        // Typescript check - this can't be called unless we missed an Action type
+        const _exhaustive: never = action;
+        break;
+      }
     }
-    case "setLineColour": {
-      const result = _.cloneDeep(state);
-      result.config.colours.defaultLine = action.payload;
-      return result;
-    }
-    case "setDotColour": {
-      const result = _.cloneDeep(state);
-      result.config.colours.defaultDot = action.payload;
-      return result;
-    }
-    case "selectData": {
-      const result = _.cloneDeep(state);
-      result.config.selected = action.payload;
-      return result;
-    }
-    default: {
-      // Typescript check - this can't be called unless we missed an Action type
-      const _exhaustive: never = action;
-      return action;
-    }
-  }
+  });
 }
 
 export { globalDispatchReducer, initialiseGlobalState };

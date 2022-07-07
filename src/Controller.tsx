@@ -1,5 +1,4 @@
-import _uniqueId from "lodash/uniqueId";
-import { useRef } from "react";
+import { useId } from "react";
 
 import { DefaultComponentProps } from "./ComponentProps";
 
@@ -10,9 +9,9 @@ const Controller = (props: DefaultComponentProps) => {
   const { state, dispatch } = props;
 
   const { config } = state;
-  // ID logic from https://stackoverflow.com/questions/29420835/how-to-generate-unique-ids-for-form-labels-in-react
-  const { current: strokeColourId } = useRef(_uniqueId("controller-"));
-  const { current: dotColourId } = useRef(_uniqueId("controller-"));
+  // ID logic from https://stackoverflow.com/a/71681435/196463 updated for react 18!
+  const strokeColourId = useId();
+  const dotColourId = useId();
 
   return (
     <aside className="Controller">

@@ -1,5 +1,4 @@
-import _ from "lodash";
-import moment from "moment";
+import { parseISO } from "date-fns/fp";
 import { useEffect, useRef, useState } from "react";
 
 import App from "./App";
@@ -28,7 +27,7 @@ const useFetch = (url: string) => {
         (rawData: JsonEntry, index: number) => {
           return {
             id: index,
-            date: moment(rawData.date).toDate(),
+            date: parseISO(rawData.date),
             newCases: rawData.newCasesByPublishDate,
             cumCases: rawData.cumCasesByPublishDate,
           };
@@ -38,8 +37,8 @@ const useFetch = (url: string) => {
         throw new Error("Empty data returned from json file");
       }
       const dates: Array<Date> = cleanData.map((d) => d.date);
-      const earliest = _.min(dates) as Date;
-      const latest: Date = _.max(dates) as Date;
+      const earliest = dates.reduce((a, b) => (a < b ? a : b));
+      const latest = dates.reduce((a, b) => (a > b ? a : b));
 
       const metadata = {
         earliest,

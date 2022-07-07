@@ -19,7 +19,7 @@ const App = ({ dataRefMaybe }: { dataRefMaybe: VizDataRefMaybe }) => {
 
   // set up global state management
   const [vizState, dispatch] = useReducer(
-    globalDispatchReducer,
+    globalDispatchReducer(),
     dataRef,
     initialiseGlobalState
   );
