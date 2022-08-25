@@ -1,6 +1,6 @@
 import produce, { Immutable } from "immer";
 
-import { VizDataRef } from "./DataTypes";
+import { VizDataRef } from "./viz.types";
 
 interface DateRangeAction {
   type: "dateRange";

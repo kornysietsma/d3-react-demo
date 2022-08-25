@@ -4,8 +4,9 @@ import { useEffect, useRef } from "react";
 import * as React from "react";
 
 import { DefaultComponentProps } from "./ComponentProps";
-import { DataEntry, VizMetadata } from "./DataTypes";
+import { DataEntry } from "./data.types";
 import { Action, State } from "./State";
+import { VizMetadata } from "./viz.types";
 
 type Margins = { left: number; right: number; top: number; bottom: number };
 

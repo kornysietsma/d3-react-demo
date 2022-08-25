@@ -2,7 +2,8 @@ import { parseISO } from "date-fns/fp";
 import { useEffect, useRef, useState } from "react";
 
 import App from "./App";
-import { DataEntry, VizData, VizDataRefMaybe } from "./DataTypes";
+import { DataEntry } from "./data.types";
+import { VizData, VizDataRefMaybe } from "./viz.types";
 
 type JsonEntry = {
   areaType: string;

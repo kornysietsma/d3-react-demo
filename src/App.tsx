@@ -3,10 +3,10 @@ import "./App.css";
 import { useReducer, useRef } from "react";
 
 import Controller from "./Controller";
-import { VizDataRef, VizDataRefMaybe } from "./DataTypes";
 import Inspector from "./Inspector";
 import { globalDispatchReducer, initialiseGlobalState } from "./State";
 import Viz from "./Viz";
+import { VizDataRef, VizDataRefMaybe } from "./viz.types";
 
 /**
  * The main App component - note, this should be loaded from a `<Loader>` which handles fetching data first!

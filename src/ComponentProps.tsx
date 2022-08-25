@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 
-import { VizDataRef } from "./DataTypes";
+import { VizDataRef } from "./viz.types";
 import { Action, State } from "./State";
 
 /**

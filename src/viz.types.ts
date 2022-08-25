@@ -1,11 +1,6 @@
 import { MutableRefObject } from "react";
 
-export type DataEntry = {
-  id: number;
-  date: Date;
-  newCases: number;
-  cumCases: number;
-};
+import { DataEntry } from "./data.types";
 
 export type VizMetadata = {
   earliest: Date;
